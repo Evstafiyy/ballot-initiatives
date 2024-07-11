@@ -19,6 +19,7 @@ function Navbar({ user, setUser }) {
         <nav className='aaa'>
 
             <NavLink to='/'>Главная</NavLink>
+            <NavLink to='/votes'>Голоса</NavLink>
             {user ? (
                 <>
                     <NavLink onClick={onHandleLogout}>Выход</NavLink>

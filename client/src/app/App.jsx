@@ -9,6 +9,7 @@ import Navbar from '../page/navbar/Navbar'
 
 
 import './App.css'
+import VotesList from '../page/votes/VotesList';
 
 function App() {
   const [user, setUser] = useState()
@@ -32,6 +33,7 @@ function App() {
       <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route path='/' element={<Main />} />
+        <Route path='/votes' element={<VotesList  />} />
         <Route
           path='/registration'
           element={<Registration setUser={setUser} user={user} />}
