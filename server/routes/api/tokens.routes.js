@@ -1,12 +1,12 @@
-const router = require('express').Router();
-const verifyRefreshToken = require('../../middleware/verifyRefreshToken');
-const generateTokens = require('../../utils/authUtils');
+const router = require("express").Router();
+const verifyRefreshToken = require("../../middleware//verifyRefreshToken");
+const generateTokens = require("../../utils/authUtils");
 
-router.get('/refresh', verifyRefreshToken, (req, res) => {
+router.get("/refresh", verifyRefreshToken, (req, res) => {
   const { user } = res.locals;
   const { accessToken, refreshToken } = generateTokens({ user });
   res
-    .cookie('refresh', refreshToken, { httpOnly: true })
+    .cookie("refresh", refreshToken, { httpOnly: true })
     .status(200)
     .json({ accessToken, user });
 });

@@ -1,33 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
+import Main from '../page/main/Main'
+import Authorization from '../page/auth/Authorization';
+import Registration from '../page/auth/Registration';
+import requestAxios, { setAccessToken } from '../services/axios';
+import { Route, Routes } from 'react-router-dom'
+import Navbar from '../page/navbar/Navbar'
+
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState()
+
+  const AxiosChekUser = async () => {
+    const { data } = await requestAxios.get('/tokens/refresh');
+
+    setUser(data.user);
+    setAccessToken(data.accessToken);
+
+  };
+  useEffect(() => {
+
+
+    AxiosChekUser();
+  }, [])
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Navbar user={user} setUser={setUser} />
+      <Routes>
+        <Route path='/' element={<Main />} />
+        <Route
+          path='/registration'
+          element={<Registration setUser={setUser} user={user} />}
+        />
+        <Route
+          path='/authorization'
+          element={<Authorization setUser={setUser} user={user} />}
+        />
+        <Route path='*' element={<h1>404</h1>} />
+      </Routes>
+
     </>
   )
 }
