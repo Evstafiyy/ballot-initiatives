@@ -6,9 +6,10 @@ import Registration from '../page/auth/Registration';
 import requestAxios, { setAccessToken } from '../services/axios';
 import { Route, Routes } from 'react-router-dom'
 import Navbar from '../page/navbar/Navbar'
-
-
 import './App.css'
+import Initiatives from '../page/initiatives/Initiatives';
+
+
 
 function App() {
   const [user, setUser] = useState()
@@ -32,6 +33,7 @@ function App() {
       <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route path='/' element={<Main />} />
+        <Route path='/initiatives' element={<Initiatives user={user} setUser = {setUser} />} />
         <Route
           path='/registration'
           element={<Registration setUser={setUser} user={user} />}
