@@ -7,6 +7,7 @@ import requestAxios, { setAccessToken } from '../../services/axios';
 
 function Navbar({ user, setUser }) {
 
+
     const onHandleLogout = async () => {
         const { data } = await requestAxios.get('/auth/logout');
         if (data.message === 'success') {
@@ -20,6 +21,7 @@ function Navbar({ user, setUser }) {
 
             <NavLink to='/'>Главная</NavLink>
             <NavLink to='/votes'>Голоса</NavLink>
+           <NavLink to='/initiatives'>Инициативы</NavLink>
             {user ? (
                 <>
                     <NavLink onClick={onHandleLogout}>Выход</NavLink>
@@ -34,6 +36,7 @@ function Navbar({ user, setUser }) {
             <div>Привет: {user?.fullName}!</div>
         </nav>
     );
+
 }
 
 export default Navbar;
