@@ -1,3 +1,4 @@
+
 const router = require("express").Router();
 const verifyRefreshToken = require("../../middleware//verifyRefreshToken");
 const generateTokens = require("../../utils/authUtils");
@@ -12,3 +13,4 @@ router.get("/refresh", verifyRefreshToken, (req, res) => {
 });
 
 module.exports = router;
+

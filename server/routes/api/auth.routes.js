@@ -1,3 +1,4 @@
+
 const router = require("express").Router();
 const { User } = require("../../db/models");
 const bcrypt = require("bcrypt");
@@ -82,3 +83,4 @@ router.get("/logout", (req, res) => {
   res.status(200).clearCookie("refresh").json({ message: "success" });
 });
 module.exports = router;
+

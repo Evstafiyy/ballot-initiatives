@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react'
 import Main from '../page/main/Main'
 import Authorization from '../page/auth/Authorization';
@@ -44,6 +45,7 @@ function App() {
 
     </>
   )
+
 }
 
 export default App
