@@ -24,6 +24,8 @@
     "globals": "^15.8.0"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.4",
