@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import InitiativeItem from './InitiativeItem'
 
 function Initiatives() {
 	const [initiatives, setInitiatives] = useState([])
@@ -17,7 +18,7 @@ function Initiatives() {
 		<>
 			{initiatives.map((initiative) => (
 				<div key = {initiative.id}>
-					Название: {initiative.title}
+					<InitiativeItem initiative = {initiative} setInitiatives = {setInitiatives}/>
 				</div>
 			))}
 		</>
