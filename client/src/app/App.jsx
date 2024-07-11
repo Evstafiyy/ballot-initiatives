@@ -10,6 +10,10 @@ import './App.css'
 import Initiatives from '../page/initiatives/Initiatives';
 
 
+import './App.css'
+import VotesList from '../page/votes/VotesList';
+
+
 
 function App() {
   const [user, setUser] = useState()
@@ -33,7 +37,13 @@ function App() {
       <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route path='/' element={<Main />} />
+
         <Route path='/initiatives' element={<Initiatives user={user} setUser = {setUser} />} />
+
+        <Route path='/votes' element={<VotesList  />} />
+
+    
+
         <Route
           path='/registration'
           element={<Registration setUser={setUser} user={user} />}

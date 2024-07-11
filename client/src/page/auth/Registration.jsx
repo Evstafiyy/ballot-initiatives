@@ -42,7 +42,7 @@ function Registration({ setUser }) {
                 <label htmlFor='fullName'>
                     <input
                         type='text'
-                        placeholder='Введите Имя'
+                        placeholder='Введите Фио'
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                     />

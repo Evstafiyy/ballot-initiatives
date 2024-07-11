@@ -1,4 +1,3 @@
-
 const router = require("express").Router();
 const { User } = require("../../db/models");
 const bcrypt = require("bcrypt");
@@ -8,11 +7,7 @@ const jwtConfig = require("../../config/jwtConfig");
 router.post("/registration", async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
-    if (
-      fullName.trim() === "" ||
-      email.trim() === "" ||
-      password.trim() === ""
-    ) {
+    if (fullName.trim() === "" || email.trim() === "" || password.trim() === "") {
       res.status(400).json({ message: "заполните все поля" });
       return;
     }
@@ -83,4 +78,3 @@ router.get("/logout", (req, res) => {
   res.status(200).clearCookie("refresh").json({ message: "success" });
 });
 module.exports = router;
-
