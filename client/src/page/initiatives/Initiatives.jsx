@@ -6,10 +6,10 @@ function Initiatives() {
 	const [initiatives, setInitiatives] = useState([])
 
 	const getAllInitiatives = async() => {
-		const initiativesFromServer = await axios.get('/api/initiatives')
-		setInitiatives(initiativesFromServer.data.initiatives)
+		const initiatives = await axios.get('/api/initiatives')
+		setInitiatives(initiatives.data.initiatives)
 	}
-	
+
 	useEffect(()=>{
 		getAllInitiatives()
 	}, [])

@@ -1,0 +1,17 @@
+.delete-button{
+	width: 200px;
+	background-color: #cb3116;
+	border-radius: 20px;
+}
+
+.change-button{
+	width: 200px;
+	background-color: #52a7e4;
+	border-radius: 20px;
+}
+
+.create-button{
+	width: 200px;
+	background-color: #2bc386;
+	border-radius: 20px;
+}
