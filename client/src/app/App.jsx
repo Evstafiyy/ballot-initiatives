@@ -1,41 +1,51 @@
-import React, { useEffect, useState } from "react";
-import "./App.css";
-import { Route, Routes, Link } from "react-router-dom";
-import AuthForm from "../components/Auth/AuthForm";
-import axios from "axios";
-import { setAccessToken } from "../../services/axiosInstance"
+
+import { useEffect, useState } from 'react'
+import Main from '../page/main/Main'
+import Authorization from '../page/auth/Authorization';
+import Registration from '../page/auth/Registration';
+import requestAxios, { setAccessToken } from '../services/axios';
+import { Route, Routes } from 'react-router-dom'
+import Navbar from '../page/navbar/Navbar'
+
+
+import './App.css'
 
 function App() {
-	const [user, setUser] = useState({});
+  const [user, setUser] = useState()
 
-	useEffect(() => {
-		axios.get("/api/tokens/refresh").then(data => {
-			setUser(data.data.user)
-			setAccessToken(data.data.accessToken)
-		})
+  const AxiosChekUser = async () => {
+    const { data } = await requestAxios.get('/tokens/refresh');
 
-	}, [])
-	return (
-		<>
-			<nav>
-				<ul>
-					<li>
-						<Link to="/">Home</Link>
-					</li>
-					<li>
-						<Link to="/about">About</Link>
-					</li>
-					<li>
-						<Link to="/login">Login</Link>
-					</li>
-					<li>{user?.email}</li>
-				</ul>
-			</nav>
-			<Routes>
-				<Route path="/login" element={<AuthForm setUser={setUser} />}></Route>
-			</Routes>
-		</>
-	);
+    setUser(data.user);
+    setAccessToken(data.accessToken);
+
+  };
+  useEffect(() => {
+
+
+    AxiosChekUser();
+  }, [])
+
+
+  return (
+    <>
+      <Navbar user={user} setUser={setUser} />
+      <Routes>
+        <Route path='/' element={<Main />} />
+        <Route
+          path='/registration'
+          element={<Registration setUser={setUser} user={user} />}
+        />
+        <Route
+          path='/authorization'
+          element={<Authorization setUser={setUser} user={user} />}
+        />
+        <Route path='*' element={<h1>404</h1>} />
+      </Routes>
+
+    </>
+  )
+
 }
 
 export default App

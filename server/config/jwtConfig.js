@@ -1,5 +1,4 @@
 const jwtConfig = {
-
   access: {
     expiresIn: `${1000 * 5}`,
   },

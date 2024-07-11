@@ -2,9 +2,9 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Votes extends Model {
-    static associate({ User, Initiative }) {
+    static associate({ User, Initiatives }) {
       this.belongsTo(User, { foreignKey: "userId" });
-      this.belongsTo(Initiative, { foreignKey: "initiativeId" });
+      this.belongsTo(Initiatives, { foreignKey: "initiativeId" });
     }
   }
   Votes.init(
@@ -12,6 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onDelete: "cascade",
       },
       initiativeId: {
         allowNull: false,

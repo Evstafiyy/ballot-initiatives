@@ -1,72 +1,86 @@
-const authRoute = require("express").Router();
+
+const router = require("express").Router();
 const { User } = require("../../db/models");
 const bcrypt = require("bcrypt");
-const generateTokens = require("../../utils/generateTokens");
-const cookiesConfig = require("../../config/cookiesConfig");
+const generateTokens = require("../../utils/authUtils");
+const jwtConfig = require("../../config/jwtConfig");
 
-/**
- * Роут на создание нового пользователя
- * В ответе отдает json
- */
-authRoute.post("/registration", async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    res.status(400).json({ message: "Не все поля" });
-    return;
-  }
-
-  if (email.trim() === "" || password.trim() === "") {
-    res.status(400).json({ message: "Поля не пустые" });
-    return;
-  }
-
+router.post("/registration", async (req, res) => {
   try {
-    const hashPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ ...req.body, password: hashPassword });
-    res.status(201).json({ user });
-  } catch (error) {
-    res.status(500).json({ error, message: "Ошибка сервера" });
-  }
-});
-
-authRoute.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    res.status(400).json({ message: "Не все поля" });
-    return;
-  }
-
-  if (email.trim() === "" || password.trim() === "") {
-    res.status(400).json({ message: "Поля не пустые" });
-    return;
-  }
-  try {
-    const targetUser = await User.findOne({
-      where: {
-        email,
-      },
-    });
-
-    const IsValidPassword = bcrypt.compare(password, targetUser.password);
-    if (!IsValidPassword) {
-      res
-        .status(401)
-        .json({ error, message: "Не правильный пароль или логин" });
+    const { fullName, email, password } = req.body;
+    if (
+      fullName.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === ""
+    ) {
+      res.status(400).json({ message: "заполните все поля" });
       return;
     }
 
-    const user = targetUser.get();
+    const userInDb = await User.findOne({ where: { email } });
+    if (userInDb) {
+      res
+        .status(400)
+        .json({ message: "Такой пользователь уже зарегестрирован" });
+      return;
+    }
+    const hashPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({ fullName, email, password: hashPassword });
+
     delete user.password;
 
-    const {accessToken, refreshToken} = generateTokens({user});
+    const { accessToken, refreshToken } = generateTokens({ user });
 
-    res.cookie(
-      "refreshToken", refreshToken, cookiesConfig
-    )
-    res.status(200).json({accessToken,  user });
-  } catch (error) {
-    res.status(500).json({ error, message: "Нет пользователя" });
+    console.log(accessToken, refreshToken);
+    if (user) {
+      res
+        .status(201)
+        .cookie("refresh", refreshToken, { httpOnly: true })
+        .json({ message: "success", user, accessToken });
+      return;
+    }
+
+    res.status(400).json({ message: "Что-то пошло не так" });
+  } catch ({ message }) {
+    res.status(500).json({ error: message });
   }
 });
-module.exports = authRoute;
+
+router.post("/authorization", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (email.trim() === "" || password.trim() === "") {
+      res.status(400).json({ message: "заполните все поля" });
+      return;
+    }
+    const user = await User.findOne({ where: { email } });
+    if (user) {
+      const isCompare = await bcrypt.compare(password, user.password);
+      if (isCompare) {
+        delete user.password;
+
+        const { accessToken, refreshToken } = generateTokens({ user });
+        console.log(refreshToken);
+        res
+          .status(200)
+          .cookie("refresh", refreshToken, { httpOnly: true })
+          .json({ message: "success", accessToken, user });
+        return;
+      }
+      res.status(400).json({ message: "email или пароль не совпадают" });
+      return;
+    }
+
+    res.status(400).json({ message: "email или пароль не совпадают" });
+  } catch ({ message }) {
+    res.status(500).json({ error: message });
+  }
+});
+
+router.get("/logout", (req, res) => {
+  res.locals.user = undefined;
+  res.status(200).clearCookie("refresh").json({ message: "success" });
+});
+module.exports = router;
+
