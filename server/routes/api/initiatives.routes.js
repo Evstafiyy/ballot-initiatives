@@ -6,7 +6,6 @@ initRoutes.get("/", async (req, res) => {
       const initiatives = await Initiatives.findAll();
       res.status(200).json({ message: "success", initiatives });
 	} catch (error) {
-		 console.log(111111);
       res.status(500).json(error);
     }
   });
