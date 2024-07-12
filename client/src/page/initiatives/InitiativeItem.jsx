@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 
-function InitiativeItem({ initiative, setInitiatives }) {
+function InitiativeItem({ user, initiative, setInitiatives }) {
 	//Состояние для изменения отображения формы изменения элемента
 	const [isOpen, setIsopen] = useState(false)
 
