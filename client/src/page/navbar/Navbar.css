@@ -1,10 +1,23 @@
-.aaa{
+.navbar{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #000000;
+    background-color: #4f4f4f;
     color: #fff;
     padding: 1rem;
     font-family: Arial, sans-serif;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+	 border-radius: 0 0 20px 20px;
+	 width: 800px;
 }
+
+.nav-link {
+	color: #fff;
+	text-decoration: none;
+	font-size: 18px;
+	transition: color 0.3s ease;
+ }
+
+ .nav-link:hover {
+	color: #f0a500;
+ }

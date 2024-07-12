@@ -1,7 +1,7 @@
 {
   "development": {
 
-    "username": "admin",
+    "username": "zagrebelnyy_andrey",
     "password": "123",
     "database": "Initiatives",
     "host": "127.0.0.1",

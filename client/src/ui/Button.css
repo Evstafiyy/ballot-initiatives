@@ -1,6 +1,11 @@
 button{
 	margin: 5px;
 }
+
+button:hover{
+	scale: 105%;
+}
+
 .delete-button{
 	width: 200px;
 	background-color: #cb3116;
