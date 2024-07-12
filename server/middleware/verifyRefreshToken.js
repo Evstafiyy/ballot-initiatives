@@ -1,13 +1,12 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../db/models');
+require("dotenv").config()
 
 async function verifyRefreshToken(req, res, next) {
   try {
   
     const { refresh } = req.cookies;
-    console.log(refresh);
-    let { user } = jwt.verify(refresh, process.env.REFRESH_TOKEN);
-    console.log(123);
+    let { user } = jwt.verify(refresh, process.env.R);
  
     user = await User.findOne({
       where: { id: user.id },

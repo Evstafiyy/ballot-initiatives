@@ -1,64 +1,68 @@
-import React from 'react'
-import './InitiativeItem.css'
-import Button from '../../ui/Button'
-import { useState, useEffect } from 'react'
+import React, { useState } from 'react';
+import './InitiativeItem.css';
+import requestAxios from '../../services/axios';
+import FormUpdateInitiative from './FormUpdateInitiative';
+import Button from '../../ui/Button';
 
-function InitiativeItem({ initiative, setInitiatives }) {
-	//Состояние для изменения отображения формы изменения элемента
-	const [isOpen, setIsopen] = useState(false)
+function InitiativeItem({ initiative, setInitiatives, user }) {
+	const [isUpdate, setIsUpdate] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
-	//Состояние формы изменения элемента
-	const [form, setForm] = useState(initiative)
+	const onHandleDelete = async () => {
+		try {
+			const { data } = await requestAxios.delete(`/initiatives/${initiative.id}`);
+			if (data.message === 'success') {
+				setInitiatives((prev) => prev.filter((delInitiative) => delInitiative.id !== initiative.id));
+			}
+		} catch (error) {
+			console.error('Ошибка при удалении:', error);
+		}
+	};
 
-	// Состояние формы изменения голосов
-	const [vote, setVote] = useState(false)
+	const voteUp = async (e, id) => {
+		e.preventDefault();
+		try {
+			const { data } = await requestAxios.put(`/api/votes/${id}`);
+			if (data.message === 'success') {
+				setInitiatives((prev) => prev.map((i) => (i.id === id ? { ...i, vote: !i.vote } : i)));
+			}
+		} catch (error) {
+			console.error('Ошибка при голосовании:', error);
+		}
+	};
 
+	return (
+		<div className='item-card' key={initiative.id}>
+			{isUpdate ? (
+				<FormUpdateInitiative initiative={initiative} setInitiatives={setInitiatives} setIsUpdate={setIsUpdate} />
+			) : (
+				<>
+					<div>
+						<div>Название: {initiative.title}</div>
+						<div>Описание: {initiative.description}</div>
+					</div>
+					{user.id === initiative.userId && (
+						<>
 
-	//Функции кнопки
+							<button onClick={() => setIsUpdate(true)} className='change-button' > Изменить</button>
+							<button onClick={onHandleDelete} className='change-button' > Удалить</button>
+							<button onClick={() => setIsOpen((prev) => !prev)} className='change-button' > Голосовать</button>
 
+						</>
+					)}
+					<>
+						{isOpen && (
+							<>
+								<Button buttonName={'За'} buttonClass={'upvote-buttosn'} onClick={(e) => voteUp(e, initiative.id)} />
+								<Button buttonName={'Против'} buttonClass={'downvote-button'} onClick={(e) => voteUp(e, initiative.id)} />
+							</>
+						)}
+					</>
 
-
-//Функция 'голосовать 'за''
-const voteUp = async (id) => {
-	e.preventDefault()
-	const { data } = await axios.put(`/api/votes/${id}`)
-	if (data.message === 'success') {
-		setInitiativess((prev) => !prev)
-	}
-}
-
-return (
-		<>
-	<div className='item-card'>
-		<div key={initiative.id}>
-			Название: {initiative.title}
-			<div>Lorem ipllat ipsa beatae soluta, id illum eveniet magnam amet iste nobis officia enim eum tempore! Ipsum laboriosam eum nemo ducimus vitae doloribus, eveniet tempore aliquid, totam saepe veniam!</div>
+				</>
+			)}
 		</div>
-		<Button buttonName={'Изменить'}
-			buttonClass={'change-button'}
-			onClickFunc={() => setIsopen((prev) => !prev)} />
-				<Button buttonName={'Удалить'}
-					buttonClass={'change-button'}
-					onClickFunc={()=>  {} } />
-			<Button buttonName={'Голосовать'}
-				buttonClass={'change-button'}
-				onClickFunc={() => setIsopen((prev) => !prev)} />
-		{isOpen && (
-			<>
-			<div>
-			<Button buttonName={'За'}
-				buttonClass={'upvote-button'}
-				onClickFunc={() => setIsopen((prev) => !prev)} />
-				<Button buttonName={'Против'}
-					buttonClass={'downvote-button'}
-					onClickFunc={() => setIsopen((prev) => !prev)} />
-			</div>
-			</>
-		)}
-
-	</div>
-	</>
-)
+	);
 }
 
-export default InitiativeItem
+export default InitiativeItem;

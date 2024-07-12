@@ -20,7 +20,6 @@ function App() {
 
 	const AxiosChekUser = async () => {
 		const { data } = await requestAxios.get('/tokens/refresh');
-
 		setUser(data.user);
 		setAccessToken(data.accessToken);
 
