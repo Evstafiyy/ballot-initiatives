@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import requestAxios, { setAccessToken } from '../../services/axios';
+import "./Authorization.css"
 
 function Authorization({ setUser }) {
     const [email, setEmail] = useState();
@@ -24,10 +25,10 @@ function Authorization({ setUser }) {
 
     return (
         <div>
-            <h1>Authorization Page</h1>
+            <h1></h1>
             <form className='auth' onSubmit={onHadleSubmit}>
                 <label htmlFor='email'>
-                    <input
+                    <input className='inp1'
                         type='email'
                         placeholder='Введите Email'
                         value={email}
@@ -35,14 +36,14 @@ function Authorization({ setUser }) {
                     />
                 </label>
                 <label htmlFor='password'>
-                    <input
+                    <input className='inp2'
                         type='password'
                         placeholder='Введите пароль'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
-                <button type='submit'>Войти</button>
+               <div className='butt'><button  className ='button' type='submit'>Войти</button></div> 
             </form>
         </div>
     );
