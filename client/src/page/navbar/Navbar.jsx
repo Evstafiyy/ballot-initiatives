@@ -18,14 +18,12 @@ function Navbar({ user, setUser }) {
 
     return (
         <nav className='aaa'>
-
             <NavLink to='/'>Главная</NavLink>
-            <NavLink to='/votes'>Голоса</NavLink>
            <NavLink to='/initiatives'>Инициативы</NavLink>
+            <NavLink to='/votes'>Голоса</NavLink>
             {user ? (
                 <>
                     <NavLink onClick={onHandleLogout}>Выход</NavLink>
-
                 </>
             ) : (<>
                 <NavLink to='/registration' >Регистрация</NavLink>

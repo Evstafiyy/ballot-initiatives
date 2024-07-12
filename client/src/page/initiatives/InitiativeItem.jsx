@@ -16,9 +16,6 @@ function InitiativeItem({ initiative, setInitiatives }) {
 
 	//Функции кнопки
 
-	const chooseVoteHandler = async (id) => {
-		setIsopen((prev) => !prev)
-	}
 
 
 //Функция 'голосовать 'за''
@@ -30,9 +27,6 @@ const voteUp = async (id) => {
 	}
 }
 
-
-
-
 return (
 		<>
 	<div className='item-card'>
@@ -40,24 +34,25 @@ return (
 			Название: {initiative.title}
 			<div>Lorem ipllat ipsa beatae soluta, id illum eveniet magnam amet iste nobis officia enim eum tempore! Ipsum laboriosam eum nemo ducimus vitae doloribus, eveniet tempore aliquid, totam saepe veniam!</div>
 		</div>
-		<Button buttonName={'За'}
+		<Button buttonName={'Изменить'}
 			buttonClass={'change-button'}
 			onClickFunc={() => setIsopen((prev) => !prev)} />
-		<Button buttonName={'Против'}
-			buttonClass={'change-button'}
-			onClickFunc={() => setIsopen((prev) => !prev)} />
-
-		<Button buttonName={'Голосовать'}
-			buttonClass={'change-button'}
-			onClickFunc={() => setIsopen((prev) => !prev)} />
+				<Button buttonName={'Удалить'}
+					buttonClass={'change-button'}
+					onClickFunc={()=>  {} } />
+			<Button buttonName={'Голосовать'}
+				buttonClass={'change-button'}
+				onClickFunc={() => setIsopen((prev) => !prev)} />
 		{isOpen && (
 			<>
-				<Button buttonName={'Удалить'}
-					buttonClass={'dinitiativeete-button'}
-					onClickFunc={()=>  {} } />
-				<Button buttonName={'Изменить'}
-					buttonClass={'change-button'}
+			<div>
+			<Button buttonName={'За'}
+				buttonClass={'upvote-button'}
+				onClickFunc={() => setIsopen((prev) => !prev)} />
+				<Button buttonName={'Против'}
+					buttonClass={'downvote-button'}
 					onClickFunc={() => setIsopen((prev) => !prev)} />
+			</div>
 			</>
 		)}
 

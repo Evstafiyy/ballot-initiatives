@@ -1,3 +1,6 @@
+button{
+	margin: 5px;
+}
 .delete-button{
 	width: 200px;
 	background-color: #cb3116;
@@ -13,5 +16,17 @@
 .create-button{
 	width: 200px;
 	background-color: #2bc386;
+	border-radius: 20px;
+}
+
+.upvote-button{
+	width: 200px;
+	background-color: #42bf8d;
+	border-radius: 20px;
+}
+
+.downvote-button{
+	width: 200px;
+	background-color: #902828;
 	border-radius: 20px;
 }
