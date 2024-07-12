@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import './InitiativeItem.css';
 import requestAxios from '../../services/axios';
@@ -63,6 +64,7 @@ function InitiativeItem({ initiative, setInitiatives, user }) {
 			)}
 		</div>
 	);
+
 }
 
 export default InitiativeItem;

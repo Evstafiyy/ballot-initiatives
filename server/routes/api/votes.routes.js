@@ -7,6 +7,7 @@ router.get("/", async (req, res) => {
     const votes = await Votes.findAll({ where: req.query });
     res.status(200).json({ message: "success", votes });
   } catch ({ message }) {
+	console.log(5555555);
     res.status(500).json({ error: message });
   }
 });

@@ -1,32 +1,22 @@
 "use strict";
 
+const votes = [];
+const totalElements = 80;
+
+for (let i = 0; i < totalElements; i++) {
+  votes.push({
+    userId: Math.floor(Math.random() * 4) + 1,  // случайное значение от 1 до 10
+    initiativeId: Math.floor(Math.random() * 4) + 1,  // случайное значение от 1 до 10
+    vote: Math.random() >= 0.5,  // случайное булевое значение
+  });
+}
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
       "Votes",
-      [
-        {
-          userId: 1,
-          initiativeId: 1,
-          vote: true,
-        },
-        {
-          userId: 2,
-          initiativeId: 1,
-          vote: true,
-        },
-        {
-          userId: 4,
-          initiativeId: 2,
-          vote: false,
-        },
-        {
-          userId: 1,
-          initiativeId: 3,
-          vote: true,
-        },
-      ],
+      votes,
       {}
     );
   },

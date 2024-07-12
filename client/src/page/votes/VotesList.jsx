@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react'
+import InitiativeItem from '../initiatives/InitiativeItem'
+import axios from 'axios'
+import VoteItem from './VoteItem'
+import './Votes.css'
 
-const VotesList = () => {
-    const [votes, setVotes] = useState([]);
+function VotesList({votes, setVotes, initiatives, setInitiatives}) {
 
-    useEffect(() => {
-        axios.get("/api/votes")
-            .then(response => {
-                setVotes(response.data.votes);
-            })
-            .catch(error => {
-                console.error("There was an error fetching the votes!", error);
-            });
-    }, []);
 
-    return (
-        <div>
-            <h1>Votes List</h1>
-            <ul>
-                {votes.map(vote => (
-                    <li key={vote.id}>
-                        User {vote.userId} voted {vote.vote ? "Yes" : "No"} on Initiative {vote.initiativeId}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+	return (
+		<div className='votes'>
+			{initiatives.map((initiative) => (
+				<div key={initiative.id}>
+					<VoteItem initiativeId = {initiative.id} votes={votes} setVotes={setVotes} initiative={initiative} initiatives={initiatives} setInitiatives={setInitiatives} />
+				</div>
+			))}
+		</div>
+	)
+}
 
 export default VotesList;

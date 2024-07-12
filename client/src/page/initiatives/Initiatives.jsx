@@ -1,7 +1,11 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import InitiativeItem from './InitiativeItem'
+
 import FormAddInitiative from './FormAddInitiative';
+
+import './Initiatives.css'
+
 
 function Initiatives({ user }) {
 	const [initiatives, setInitiatives] = useState([])
@@ -21,6 +25,7 @@ function Initiatives({ user }) {
 	}, [])
 
 	return (
+
 		<>
 			<button onClick={() => setIsAddNew(true)} style={{ color: 'blue', backgroundColor: 'white' }}>
 				Добавить новую инициативу
@@ -30,9 +35,15 @@ function Initiatives({ user }) {
 			{initiatives?.map((initiative) => (
 				<div key={initiative.id}>
 					<InitiativeItem initiative={initiative} setInitiatives={setInitiatives} user={user} />
+
+		<div className='initiatives'>
+			{initiatives.map((initiative) => (
+				<div key = {initiative.id}>
+					<InitiativeItem initiative = {initiative} setInitiatives = {setInitiatives}/>
+
 				</div>
 			))}
-		</>
+		</div>
 	)
 }
 

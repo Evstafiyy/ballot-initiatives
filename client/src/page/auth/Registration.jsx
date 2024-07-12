@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import requestAxios, { setAccessToken } from '../../services/axios';
+import "./Registration.css"
 
 function Registration({ setUser, user }) {
     const navigate = useNavigate();
@@ -37,10 +38,10 @@ function Registration({ setUser, user }) {
 
     return (
         <div>
-            <h1>Registration Page</h1>
+            <h1></h1>
             <form className='auth' onSubmit={onHandleSubmit}>
                 <label htmlFor='fullName'>
-                    <input
+                    <input className='input1'
                         type='text'
                         placeholder='Введите Фио'
                         value={fullName}
@@ -48,7 +49,7 @@ function Registration({ setUser, user }) {
                     />
                 </label>
                 <label htmlFor='email'>
-                    <input
+                    <input className='input2'
                         type='email'
                         placeholder='Введите Email'
                         value={email}
@@ -56,7 +57,7 @@ function Registration({ setUser, user }) {
                     />
                 </label>
                 <label htmlFor='password'>
-                    <input
+                    <input className='input3'
                         type='password'
                         placeholder='Введите пароль'
                         value={password}
@@ -64,7 +65,7 @@ function Registration({ setUser, user }) {
                     />
                 </label>
                 <label htmlFor='password'>
-                    <input
+                    <input className='input4'
                         type='password'
                         placeholder='Повторите пароль'
                         value={cpassword}
@@ -72,7 +73,7 @@ function Registration({ setUser, user }) {
                     />
                 </label>
                 <span>{error && <p>{error}</p>}</span>
-                <button type='submit'>Зарегистрироваться</button>
+               <div className='butt'><button  type='submit'>Зарегистрироваться</button></div> 
             </form>
         </div>
     );

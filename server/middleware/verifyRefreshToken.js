@@ -6,7 +6,9 @@ async function verifyRefreshToken(req, res, next) {
   try {
   
     const { refresh } = req.cookies;
+
     let { user } = jwt.verify(refresh, process.env.R);
+
  
     user = await User.findOne({
       where: { id: user.id },

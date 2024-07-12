@@ -8,32 +8,30 @@ import requestAxios, { setAccessToken } from '../../services/axios';
 function Navbar({ user, setUser }) {
 
 
-    const onHandleLogout = async () => {
-        const { data } = await requestAxios.get('/auth/logout');
-        if (data.message === 'success') {
-            setAccessToken(undefined);
-            setUser(undefined);
-        }
-    }
+	const onHandleLogout = async () => {
+		const { data } = await requestAxios.get('/auth/logout');
+		if (data.message === 'success') {
+			setAccessToken(undefined);
+			setUser(undefined);
+		}
+	}
 
-    return (
-        <nav className='aaa'>
-            <NavLink to='/'>Главная</NavLink>
-           <NavLink to='/initiatives'>Инициативы</NavLink>
-            <NavLink to='/votes'>Голоса</NavLink>
-            {user ? (
-                <>
-                    <NavLink onClick={onHandleLogout}>Выход</NavLink>
-                </>
-            ) : (<>
-                <NavLink to='/registration' >Регистрация</NavLink>
-                <NavLink to='/authorization'>Вход</NavLink>
-            </>)}
-
-
-            <div>Привет: {user?.fullName}!</div>
-        </nav>
-    );
+	return (
+		<nav className='navbar'>
+			<NavLink className={'nav-link'} to='/'>Главная</NavLink>
+			<NavLink className={'nav-link'} to='/initiatives'>Инициативы</NavLink>
+			<NavLink className={'nav-link'} to='/votes'>Голоса</NavLink>
+			{user ? (
+				<>
+					<NavLink  className={'nav-link'} onClick={onHandleLogout}>Выход</NavLink>
+				</>
+			) : (<>
+				<NavLink className={'nav-link'} to='/registration' >Регистрация</NavLink>
+				<NavLink  className={'nav-link'} to='/authorization'>Вход</NavLink>
+			</>)}
+			<div>{user?.fullName}</div>
+		</nav>
+	);
 
 }
 

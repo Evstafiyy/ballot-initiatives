@@ -3,6 +3,7 @@ const { Initiatives } = require("../../db/models");
 const verifyAccessToken = require("../../middleware/verifyAccessToken");
 
 initRoutes.get("/", async (req, res) => {
+
   try {
     const initiatives = await Initiatives.findAll({
       order: [["id", "ASC"]],
@@ -40,6 +41,7 @@ initRoutes.post("/", verifyAccessToken, async (req, res) => {
     if (initiative) {
       res.status(201).json({ message: "success", initiative });
       return;
+
     }
 
     res.status(400).json({ message: "что то пошло не по плану " });
