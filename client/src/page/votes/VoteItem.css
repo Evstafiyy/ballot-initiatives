@@ -1,0 +1,16 @@
+.vote-card{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	border-radius: 20px;
+	margin: 5px;
+	width: 500px;
+	background-color: #4f4f4f;
+	padding: 10px;
+	text-align: center;
+}
+
+.numbers .desc{
+	display: flex;
+}
