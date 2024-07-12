@@ -3,7 +3,7 @@ import "./Main.css"
 
 function Main() {
     return (
-
+<div>
         <h1></h1>
 
         <img
