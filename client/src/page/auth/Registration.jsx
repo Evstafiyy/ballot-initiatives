@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import requestAxios, { setAccessToken } from '../../services/axios';
 import "./Registration.css"
 
-function Registration({ setUser }) {
+function Registration({ setUser, user }) {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
     const [fullName, setFullName] = useState('');

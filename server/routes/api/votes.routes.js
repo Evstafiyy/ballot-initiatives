@@ -28,10 +28,12 @@ router.get("/:voteId", async (req, res) => {
 
 router.post("/", verifyAccessToken, async (req, res) => {
   try {
+    const { user } = res.locals;
+
     const { userId, initiativeId, vote } = req.body;
 
     const newVote = await Votes.create({
-      userId,
+      userId: user.id,
       initiativeId,
       vote,
     });
@@ -48,12 +50,13 @@ router.post("/", verifyAccessToken, async (req, res) => {
 
 router.put("/:voteId", verifyAccessToken, async (req, res) => {
   try {
+    const { user } = res.locals;
     const { voteId } = req.params;
     const { userId, initiativeId, vote } = req.body;
 
     const result = await Votes.update(
       { userId, initiativeId, vote },
-      { where: { id: voteId } }
+      { where: { id: voteId, userId: user.id } }
     );
 
     if (result[0] > 0) {
@@ -69,9 +72,12 @@ router.put("/:voteId", verifyAccessToken, async (req, res) => {
 
 router.delete("/:voteId", verifyAccessToken, async (req, res) => {
   try {
+    const { user } = res.locals;
     const { voteId } = req.params;
 
-    const result = await Votes.destroy({ where: { id: voteId } });
+    const result = await Votes.destroy({
+      where: { id: voteId, userId: user.id },
+    });
 
     if (result > 0) {
       res.status(200).json({ message: "success" });

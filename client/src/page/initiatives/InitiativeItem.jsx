@@ -1,63 +1,70 @@
-import React from 'react'
-import './InitiativeItem.css'
-import Button from '../../ui/Button'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
 
+import React, { useState } from 'react';
+import './InitiativeItem.css';
+import requestAxios from '../../services/axios';
+import FormUpdateInitiative from './FormUpdateInitiative';
+import Button from '../../ui/Button';
 
-function InitiativeItem({ user, initiative, setInitiatives }) {
-	//Состояние для изменения отображения формы изменения элемента
-	const [isOpen, setIsopen] = useState(false)
+function InitiativeItem({ initiative, setInitiatives, user }) {
+	const [isUpdate, setIsUpdate] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
-	//Функция 'голосовать 'за''
-	const upvoteFunc = async (id) => {
-		const inits = await axios.get('/api/initiatives')
-		// console.log(111111, inits.data.initiatives);
-		const vote = await axios.get('/api/votes')
-		const upvote = await axios.put(`/api/votes/:${id}`, {vote:true})
-	}
+	const onHandleDelete = async () => {
+		try {
+			const { data } = await requestAxios.delete(`/initiatives/${initiative.id}`);
+			if (data.message === 'success') {
+				setInitiatives((prev) => prev.filter((delInitiative) => delInitiative.id !== initiative.id));
+			}
+		} catch (error) {
+			console.error('Ошибка при удалении:', error);
+		}
+	};
 
-	//Функция 'голосовать 'за'
-	// const downvoteFunc = async (id) => {
-	// 	e.preventDefault()
-	// 	const { data } = await axios.put(`/api/votes/${id}`)
-	// 	if (data.message === 'success') {
-	// 		setInitiatives((prev) => !prev)
-	// 	}
-	// }
-
+	const voteUp = async (e, id) => {
+		e.preventDefault();
+		try {
+			const { data } = await requestAxios.put(`/api/votes/${id}`);
+			if (data.message === 'success') {
+				setInitiatives((prev) => prev.map((i) => (i.id === id ? { ...i, vote: !i.vote } : i)));
+			}
+		} catch (error) {
+			console.error('Ошибка при голосовании:', error);
+		}
+	};
 
 	return (
-		<>
-			<div className='item-card'>
-				<div key={initiative.id}>
-					Название: {initiative.title}
-					<div>Lorem ipllat ipsa beatae soluta, id illum eveniet magnam amet iste nobis officia enim eum tempore! Ipsum laboriosam eum nemo ducimus vitae doloribus, eveniet tempore aliquid, totam saepe veniam!</div>
-				</div>
-				<Button buttonName={'Изменить'}
-					buttonClass={'change-button'}
-					onClickFunc={() => setIsopen((prev) => !prev)} />
-				<Button buttonName={'Удалить'}
-					buttonClass={'change-button'}
-					onClickFunc={() => { }} />
-				<Button buttonName={'Голосовать'}
-					buttonClass={'change-button'}
-					onClickFunc={() => setIsopen((prev) => !prev)} />
-				{isOpen && (
+		<div className='item-card' key={initiative.id}>
+			{isUpdate ? (
+				<FormUpdateInitiative initiative={initiative} setInitiatives={setInitiatives} setIsUpdate={setIsUpdate} />
+			) : (
+				<>
+					<div>
+						<div>Название: {initiative.title}</div>
+						<div>Описание: {initiative.description}</div>
+					</div>
+					{user.id === initiative.userId && (
+						<>
+
+							<button onClick={() => setIsUpdate(true)} className='change-button' > Изменить</button>
+							<button onClick={onHandleDelete} className='change-button' > Удалить</button>
+							<button onClick={() => setIsOpen((prev) => !prev)} className='change-button' > Голосовать</button>
+
+						</>
+					)}
 					<>
-						<div>
-							<Button buttonName={'За'}
-								buttonClass={'upvote-button'}
-								onClickFunc={() => upvoteFunc()} />
-							<Button buttonName={'Против'}
-								buttonClass={'downvote-button'}
-								onClickFunc={() => setIsopen((prev) => !prev)} />
-						</div>
+						{isOpen && (
+							<>
+								<Button buttonName={'За'} buttonClass={'upvote-buttosn'} onClick={(e) => voteUp(e, initiative.id)} />
+								<Button buttonName={'Против'} buttonClass={'downvote-button'} onClick={(e) => voteUp(e, initiative.id)} />
+							</>
+						)}
 					</>
-				)}
-			</div>
-		</>
-	)
+
+				</>
+			)}
+		</div>
+	);
+
 }
 
-export default InitiativeItem
+export default InitiativeItem;

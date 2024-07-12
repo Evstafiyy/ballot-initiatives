@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import requestAxios, { setAccessToken } from '../../services/axios';
 import "./Authorization.css"
 
-function Authorization({ setUser }) {
+function Authorization({ setUser, user }) {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
 
@@ -11,6 +11,8 @@ function Authorization({ setUser }) {
 
     const onHadleSubmit = async (e) => {
         e.preventDefault();
+
+
         const { data } = await requestAxios.post('/auth/authorization', {
             email,
             password,
