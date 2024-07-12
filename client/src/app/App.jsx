@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import Main from '../page/main/Main'
 import Authorization from '../page/auth/Authorization';
@@ -9,12 +8,9 @@ import Navbar from '../page/navbar/Navbar'
 import './App.css'
 import Initiatives from '../page/initiatives/Initiatives';
 
-
 import './App.css'
 import VotesList from '../page/votes/VotesList';
 import axios from 'axios';
-
-
 
 function App() {
 	const [user, setUser] = useState()
@@ -36,8 +32,6 @@ function App() {
 		setInitiatives(initiativesFromServer.data.initiatives)
 	}
 
-
-
 	const [votes, setVotes] = useState([])
 
 	const getAllVotes = async () => {
@@ -45,15 +39,10 @@ function App() {
 		setVotes(votesFromServer.data.votes)
 	}
 
-
 	useEffect(() => {
 		getAllVotes();
 		getAllInitiatives();
 	}, [])
-
-	
-	console.log(111111111111, initiatives);
-	console.log(222222222222, votes);
 
 	return (
 		<>
